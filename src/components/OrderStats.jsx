@@ -1,3 +1,6 @@
+import React from "react";
+
+
 export default function OrderStats({ orders }) {
     const total = orders.length;
     const byStatus = orders.reduce((acc, order) => {

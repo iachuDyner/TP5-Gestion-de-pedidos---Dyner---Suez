@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import React from "react";
 export default function OrderForm({ addOrder }) {
   const [customer, setCustomer] = useState("");
   const [products, setProducts] = useState([{ name: "", quantity: 1, price: 0 }]);

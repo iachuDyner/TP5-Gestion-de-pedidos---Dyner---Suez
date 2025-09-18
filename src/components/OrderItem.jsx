@@ -1,3 +1,6 @@
+import React from "react";
+
+
 export default function OrderItem({ order }) {
     // Validaciones internas
     if (!order.customer || order.customer.length < 3) return null;
