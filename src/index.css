@@ -1,0 +1,96 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f7f7fa;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .app-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 24px #0002;
+    padding: 32px 40px;
+  }
+  
+  h1, h2, h4 {
+    color: #234;
+    margin-top: 0;
+  }
+  
+  .flex-row {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    margin-bottom: 32px;
+  }
+  
+  .order-list {
+    margin-top: 20px;
+  }
+  
+  .order-item {
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    background: #f9f9fc;
+  }
+  
+  .order-item h3 {
+    margin: 0 0 8px 0;
+    color: #1976d2;
+  }
+  
+  .order-item ul {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0 0;
+  }
+  
+  .order-item li {
+    padding: 2px 0;
+  }
+  
+  .order-stats {
+    background: #eaf4ff;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-bottom: 18px;
+  }
+  
+  .order-form {
+    background: #f0faf0;
+    border-radius: 8px;
+    padding: 18px 24px;
+    margin-bottom: 18px;
+  }
+  
+  .order-form input, .order-form select {
+    margin: 0 8px 8px 0;
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #bbb;
+  }
+  
+  .order-form .product-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .order-form button {
+    margin-right: 8px;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .order-form button:hover {
+    background: #115293;
+  }
