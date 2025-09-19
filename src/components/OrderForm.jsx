@@ -13,7 +13,7 @@ export default function OrderForm({ addOrder }) {
   }
 
   function addProduct() {
-    setProducts([...products, { name: "", quantity: 1, price: 0 }]);
+    setProducts([...products, { name: "", quantity: 0, price: 0 }]);
   }
 
   function calculateTotal() {
@@ -44,7 +44,7 @@ export default function OrderForm({ addOrder }) {
     });
 
     setCustomer("");
-    setProducts([{ name: "", quantity: 1, price: 0 }]);
+    setProducts([{ name: "", quantity: 0, price: 0 }]);
     setMessage("Pedido agregado correctamente.");
     setTimeout(() => setMessage(""), 1600);
   }
@@ -86,10 +86,10 @@ export default function OrderForm({ addOrder }) {
             <input
               type="text"
               placeholder="1"
-              value={p.quantity === 1 ? "" : p.quantity}
+              value={p.quantity === 0 ? "" : p.quantity}
               onChange={e => {
                 const value = e.target.value.replace(/[^0-9]/g, '');
-                handleProductChange(idx, "quantity", value === "" ? 1 : parseInt(value) || 1);
+                handleProductChange(idx, "quantity", value === "" ? 0 : parseInt(value) || 0);
               }}
               required
             />
