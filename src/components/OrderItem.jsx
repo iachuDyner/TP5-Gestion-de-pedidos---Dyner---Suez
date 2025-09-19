@@ -19,9 +19,6 @@ export default function OrderItem({ order }) {
         <p><b>Fecha:</b> {order.date}</p>
         <p>
           <b>Estado:</b> <span className={`status-badge status-${order.status}`}>
-            {order.status === 'pending' && '⏳'}
-            {order.status === 'shipped' && '🚚'}
-            {order.status === 'delivered' && '✅'}
             {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
           </span>
         </p>

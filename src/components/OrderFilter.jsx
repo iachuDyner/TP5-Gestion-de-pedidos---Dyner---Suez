@@ -8,9 +8,6 @@ export default function OrderFilter({ status, setStatus }) {
         <option value="">Todos los pedidos</option>
         {STATUS.map(st => (
           <option key={st} value={st}>
-            {st === 'pending' && '⏳ '}
-            {st === 'shipped' && '🚚 '}
-            {st === 'delivered' && '✅ '}
             {st.charAt(0).toUpperCase() + st.slice(1)}
           </option>
         ))}

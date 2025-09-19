@@ -74,6 +74,15 @@ export default function OrderForm({ addOrder }) {
       products
     });
 
+    // Limpiar todas las imágenes antes de reiniciar
+    products.forEach(product => {
+      if (product.images) {
+        product.images.forEach(img => {
+          URL.revokeObjectURL(img.preview);
+        });
+      }
+    });
+    
     setCustomer("");
     setProducts([{ name: "", quantity: 1, price: 0, images: [] }]);
     setMessage("Pedido agregado correctamente.");
@@ -158,11 +167,10 @@ export default function OrderForm({ addOrder }) {
                 input.click();
               }}
             >
-              <div style={{ fontSize: '2rem', marginBottom: '8px' }}>📷</div>
               <div style={{ fontWeight: '500', marginBottom: '4px' }}>
                 Haz clic para subir imágenes o arrastra aquí
               </div>
-              <small style={{ color: '#718096' }}>
+              <small style={{ color: '#666666' }}>
                 JPG, PNG, GIF hasta 10MB cada una
               </small>
             </div>
