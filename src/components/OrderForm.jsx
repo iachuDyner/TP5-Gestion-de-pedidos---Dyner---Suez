@@ -1,11 +1,10 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import React from "react";
 
 export default function OrderForm({ addOrder }) {
   const [customer, setCustomer] = useState("");
-  const [products, setProducts] = useState([{ name: "", quantity: 1, price: 0, images: [] }]);
+  const [products, setProducts] = useState([{ name: "", quantity: 1, price: 0 }]);
   const [message, setMessage] = useState("");
-  const fileInputRef = useRef(null);
 
   function handleProductChange(idx, field, value) {
     const copy = [...products];
@@ -14,46 +13,13 @@ export default function OrderForm({ addOrder }) {
   }
 
   function addProduct() {
-    setProducts([...products, { name: "", quantity: 1, price: 0, images: [] }]);
+    setProducts([...products, { name: "", quantity: 1, price: 0 }]);
   }
 
-  function handleImageUpload(idx, files) {
-    const copy = [...products];
-    const newImages = Array.from(files).map(file => {
-      console.log('Uploading file:', file.name, file.type);
-      return {
-        file,
-        preview: URL.createObjectURL(file)
-      };
-    });
-    copy[idx].images = [...copy[idx].images, ...newImages];
-    setProducts(copy);
-  }
-
-  function removeImage(productIdx, imageIdx) {
-    const copy = [...products];
-    URL.revokeObjectURL(copy[productIdx].images[imageIdx].preview);
-    copy[productIdx].images.splice(imageIdx, 1);
-    setProducts(copy);
-  }
-
-  function handleDragOver(e) {
-    e.preventDefault();
-    e.currentTarget.classList.add('dragover');
-  }
-
-  function handleDragLeave(e) {
-    e.preventDefault();
-    e.currentTarget.classList.remove('dragover');
-  }
-
-  function handleDrop(e, productIdx) {
-    e.preventDefault();
-    e.currentTarget.classList.remove('dragover');
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      handleImageUpload(productIdx, files);
-    }
+  function calculateTotal() {
+    return products.reduce((total, product) => {
+      return total + (product.price * product.quantity);
+    }, 0);
   }
 
   function handleSubmit(e) {
@@ -77,17 +43,8 @@ export default function OrderForm({ addOrder }) {
       products
     });
 
-    // Limpiar todas las imágenes antes de reiniciar
-    products.forEach(product => {
-      if (product.images) {
-        product.images.forEach(img => {
-          URL.revokeObjectURL(img.preview);
-        });
-      }
-    });
-    
     setCustomer("");
-    setProducts([{ name: "", quantity: 1, price: 0, images: [] }]);
+    setProducts([{ name: "", quantity: 1, price: 0 }]);
     setMessage("Pedido agregado correctamente.");
     setTimeout(() => setMessage(""), 1600);
   }
@@ -154,48 +111,6 @@ export default function OrderForm({ addOrder }) {
             </small>
           </label>
           
-          <label>
-            Imágenes del producto
-            <div 
-              className="image-upload"
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={(e) => handleDrop(e, idx)}
-              onClick={() => {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.multiple = true;
-                input.accept = 'image/*';
-                input.onchange = (e) => handleImageUpload(idx, e.target.files);
-                input.click();
-              }}
-            >
-              <div style={{ fontWeight: '500', marginBottom: '4px' }}>
-                Haz clic para subir imágenes o arrastra aquí
-              </div>
-              <small style={{ color: '#666666' }}>
-                JPG, PNG, GIF hasta 10MB cada una
-              </small>
-            </div>
-            
-            {p.images && p.images.length > 0 && (
-              <div className="image-preview">
-                {p.images.map((img, imgIdx) => (
-                  <div key={imgIdx} className="image-preview-item">
-                    <img src={img.preview} alt={`Preview ${imgIdx}`} />
-                    <button
-                      type="button"
-                      className="remove-image"
-                      onClick={() => removeImage(idx, imgIdx)}
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </label>
-          
           <hr style={{ width: "100%", margin: "10px 0" }} />
         </div>
       ))}
@@ -203,6 +118,31 @@ export default function OrderForm({ addOrder }) {
       <small style={{ color: "#555", display: "block", marginBottom: "10px" }}>
         Podés agregar más de un producto usando este botón.
       </small>
+      
+      {/* Resumen de cuenta */}
+      <div className="order-summary">
+        <h5>Resumen del Pedido</h5>
+        <div className="summary-items">
+          {products.map((product, idx) => (
+            product.name && product.price > 0 && (
+              <div key={idx} className="summary-item">
+                <span className="item-name">{product.name}</span>
+                <span className="item-details">
+                  {product.quantity} x ${product.price}
+                </span>
+                <span className="item-total">
+                  ${(product.quantity * product.price).toLocaleString()}
+                </span>
+              </div>
+            )
+          ))}
+        </div>
+        <div className="summary-total">
+          <span className="total-label">Total:</span>
+          <span className="total-amount">${calculateTotal().toLocaleString()}</span>
+        </div>
+      </div>
+      
       <button type="submit">Agregar pedido</button>
       {message && <div style={{ color: "#1976d2", marginTop: 8 }}>{message}</div>}
     </form>

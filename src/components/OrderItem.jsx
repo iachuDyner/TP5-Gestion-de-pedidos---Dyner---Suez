@@ -5,9 +5,11 @@ export default function OrderItem({ order }) {
     // Validaciones internas
     if (!order.customer || order.customer.length < 3) return null;
     if (!Array.isArray(order.products) || order.products.some(p => p.quantity <= 0)) return null;
-    
-    console.log('OrderItem - order:', order);
-    console.log('OrderItem - products:', order.products);
+
+    // Calcular total del pedido
+    const orderTotal = order.products.reduce((total, product) => {
+      return total + (product.price * product.quantity);
+    }, 0);
   
     const statusColor = {
       pending: "#f39c12",
@@ -31,35 +33,26 @@ export default function OrderItem({ order }) {
         <div className="order-products">
           {order.products.map((p, idx) => (
             <div key={idx} className="product-card">
-              <div className="product-image-container">
-                {p.images && p.images.length > 0 ? (
-                  <img 
-                    src={p.images[0].preview} 
-                    alt={p.name}
-                    className="product-image"
-                  />
-                ) : (
-                  <div style={{ 
-                    color: '#999', 
-                    fontSize: '0.9rem',
-                    textAlign: 'center'
-                  }}>
-                    Sin imagen
-                  </div>
-                )}
-              </div>
               <div className="product-details">
                 <div className="product-name">{p.name}</div>
-                <div className="product-price">${p.price}</div>
-                <div className="product-info">Cantidad: {p.quantity}</div>
-                {p.images && p.images.length > 1 && (
-                  <div className="product-info" style={{ color: '#999', fontSize: '0.8rem' }}>
-                    +{p.images.length - 1} imagen{p.images.length - 1 !== 1 ? 'es' : ''} más
-                  </div>
-                )}
+                <div className="product-info">
+                  <span>Cantidad: {p.quantity}</span>
+                  <span>Precio unitario: ${p.price}</span>
+                </div>
+                <div className="product-subtotal">
+                  Subtotal: ${(p.quantity * p.price).toLocaleString()}
+                </div>
               </div>
             </div>
           ))}
+        </div>
+        
+        {/* Resumen total del pedido */}
+        <div className="order-total-summary">
+          <div className="total-summary">
+            <span className="total-label">Total del Pedido:</span>
+            <span className="total-amount">${orderTotal.toLocaleString()}</span>
+          </div>
         </div>
       </div>
     );
