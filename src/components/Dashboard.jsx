@@ -3,6 +3,7 @@ import { initialOrders } from "../data/orders";
 import OrderList from "./OrderList";
 import OrderFilter from "./OrderFilter";
 import OrderStats from "./OrderStats";
+import OrderSummary from "./OrderSummary";
 import OrderForm from "./OrderForm";
 import React from "react";
 export default function Dashboard() {
@@ -21,7 +22,10 @@ export default function Dashboard() {
     <>
       <div className="flex-row">
         <OrderForm addOrder={addOrder} />
-        <OrderStats orders={orders} />
+        <div className="stats-column">
+          <OrderStats orders={orders} />
+          <OrderSummary orders={orders} />
+        </div>
       </div>
       <OrderFilter status={status} setStatus={setStatus} />
       <div className="order-list">
