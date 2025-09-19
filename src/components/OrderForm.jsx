@@ -84,11 +84,13 @@ export default function OrderForm({ addOrder }) {
           <label>
             Cantidad
             <input
-              type="number"
-              placeholder="Cantidad"
-              value={p.quantity}
-              min="1"
-              onChange={e => handleProductChange(idx, "quantity", e.target.value)}
+              type="text"
+              placeholder="1"
+              value={p.quantity === 1 ? "" : p.quantity}
+              onChange={e => {
+                const value = e.target.value.replace(/[^0-9]/g, '');
+                handleProductChange(idx, "quantity", value === "" ? 1 : parseInt(value) || 1);
+              }}
               required
             />
             <small style={{ color: "#555" }}>
@@ -98,12 +100,13 @@ export default function OrderForm({ addOrder }) {
           <label>
             Precio por unidad
             <input
-              type="number"
-              placeholder="Precio"
-              value={p.price}
-              min="0"
-              step="any"
-              onChange={e => handleProductChange(idx, "price", e.target.value)}
+              type="text"
+              placeholder="0"
+              value={p.price === 0 ? "" : p.price}
+              onChange={e => {
+                const value = e.target.value.replace(/[^0-9.]/g, '');
+                handleProductChange(idx, "price", value === "" ? 0 : parseFloat(value) || 0);
+              }}
               required
             />
             <small style={{ color: "#555" }}>
