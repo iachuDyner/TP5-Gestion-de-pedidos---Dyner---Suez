@@ -2,12 +2,15 @@ const STATUS = ["pending", "shipped", "delivered"];
 import React from "react";
 export default function OrderFilter({ status, setStatus }) {
   return (
-    <div style={{ marginBottom: 24 }}>
-      <label style={{ fontWeight: "bold", marginRight: 8 }}>Filtrar por estado:</label>
+    <div className="filter-container">
+      <label>Filtrar por estado:</label>
       <select value={status} onChange={e => setStatus(e.target.value)}>
-        <option value="">Todos</option>
+        <option value="">Todos los pedidos</option>
         {STATUS.map(st => (
           <option key={st} value={st}>
+            {st === 'pending' && '⏳ '}
+            {st === 'shipped' && '🚚 '}
+            {st === 'delivered' && '✅ '}
             {st.charAt(0).toUpperCase() + st.slice(1)}
           </option>
         ))}
