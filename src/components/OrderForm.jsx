@@ -19,10 +19,13 @@ export default function OrderForm({ addOrder }) {
 
   function handleImageUpload(idx, files) {
     const copy = [...products];
-    const newImages = Array.from(files).map(file => ({
-      file,
-      preview: URL.createObjectURL(file)
-    }));
+    const newImages = Array.from(files).map(file => {
+      console.log('Uploading file:', file.name, file.type);
+      return {
+        file,
+        preview: URL.createObjectURL(file)
+      };
+    });
     copy[idx].images = [...copy[idx].images, ...newImages];
     setProducts(copy);
   }

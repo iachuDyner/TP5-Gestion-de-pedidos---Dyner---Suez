@@ -5,6 +5,9 @@ export default function OrderItem({ order }) {
     // Validaciones internas
     if (!order.customer || order.customer.length < 3) return null;
     if (!Array.isArray(order.products) || order.products.some(p => p.quantity <= 0)) return null;
+    
+    console.log('OrderItem - order:', order);
+    console.log('OrderItem - products:', order.products);
   
     const statusColor = {
       pending: "#f39c12",
