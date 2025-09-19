@@ -1,5 +1,6 @@
 import { useState } from "react";
 import React from "react";
+
 export default function OrderForm({ addOrder }) {
   const [customer, setCustomer] = useState("");
   const [products, setProducts] = useState([{ name: "", quantity: 1, price: 0 }]);
@@ -45,42 +46,71 @@ export default function OrderForm({ addOrder }) {
   return (
     <form className="order-form" onSubmit={handleSubmit}>
       <h4>Nuevo Pedido</h4>
-      <input
-        type="text"
-        placeholder="Cliente"
-        value={customer}
-        onChange={e => setCustomer(e.target.value)}
-        required
-      />
+      <label>
+        Nombre del cliente
+        <input
+          type="text"
+          placeholder="Cliente"
+          value={customer}
+          onChange={e => setCustomer(e.target.value)}
+          required
+        />
+        <small style={{ color: "#555" }}>
+          Escribí el nombre del cliente que realiza el pedido (mínimo 3 caracteres).
+        </small>
+      </label>
       <h5>Productos</h5>
       {products.map((p, idx) => (
-        <div className="product-row" key={idx}>
-          <input
-            type="text"
-            placeholder="Nombre"
-            value={p.name}
-            onChange={e => handleProductChange(idx, "name", e.target.value)}
-            required
-          />
-          <input
-            type="number"
-            placeholder="Cantidad"
-            value={p.quantity}
-            min="1"
-            onChange={e => handleProductChange(idx, "quantity", e.target.value)}
-            required
-          />
-          <input
-            type="number"
-            placeholder="Precio"
-            value={p.price}
-            min="0"
-            onChange={e => handleProductChange(idx, "price", e.target.value)}
-            required
-          />
+        <div className="product-row" key={idx} style={{ flexDirection: "column", alignItems: "start" }}>
+          <label>
+            Nombre del producto
+            <input
+              type="text"
+              placeholder="Nombre"
+              value={p.name}
+              onChange={e => handleProductChange(idx, "name", e.target.value)}
+              required
+            />
+            <small style={{ color: "#555" }}>
+              Escribí el nombre del producto que vas a agregar.
+            </small>
+          </label>
+          <label>
+            Cantidad
+            <input
+              type="number"
+              placeholder="Cantidad"
+              value={p.quantity}
+              min="1"
+              onChange={e => handleProductChange(idx, "quantity", e.target.value)}
+              required
+            />
+            <small style={{ color: "#555" }}>
+              Ingresá la cantidad de unidades que querés agregar de este producto.
+            </small>
+          </label>
+          <label>
+            Precio por unidad
+            <input
+              type="number"
+              placeholder="Precio"
+              value={p.price}
+              min="0"
+              step="any"
+              onChange={e => handleProductChange(idx, "price", e.target.value)}
+              required
+            />
+            <small style={{ color: "#555" }}>
+              Ingresá el precio de cada unidad. Podés escribir el valor manualmente.
+            </small>
+          </label>
+          <hr style={{ width: "100%", margin: "10px 0" }} />
         </div>
       ))}
-      <button type="button" onClick={addProduct}>Agregar producto</button>
+      <button type="button" onClick={addProduct}>Agregar otro producto</button>
+      <small style={{ color: "#555", display: "block", marginBottom: "10px" }}>
+        Podés agregar más de un producto usando este botón.
+      </small>
       <button type="submit">Agregar pedido</button>
       {message && <div style={{ color: "#1976d2", marginTop: 8 }}>{message}</div>}
     </form>
